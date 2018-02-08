@@ -8,8 +8,7 @@ $config = [
         'password' => '',
         'host'     => '127.0.0.1',
         'port'     => NULL
-    ],
-    'routes' => [
-        'home'    => 'Main:home',
     ]
 ];
+
+require('routes.php');
