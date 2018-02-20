@@ -9,7 +9,7 @@ class UserManager {
     $pdo = $dbm->getPdo();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $time =  date('Y-m-d H:i:s');
-        $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, username, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :username, :email, :password');
+        $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, username, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :username, :email, :password)');
         //$req->execute(array(
             //':creation' => $time,
             //':firstname' => $firstname,
@@ -23,7 +23,7 @@ class UserManager {
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', $password);
-          
+            $stmt->execute();
             var_dump($stmt->execute());
     }
     
