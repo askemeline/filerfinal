@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  lun. 19 fév. 2018 à 11:15
+-- Généré le :  lun. 19 fév. 2018 à 15:12
 -- Version du serveur :  5.7.19
 -- Version de PHP :  7.1.9
 
@@ -19,41 +19,42 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `filer-final`
+-- Base de données :  `filerfinal`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `file`
+-- Structure de la table `files`
 --
 
-DROP TABLE IF EXISTS `file`;
-CREATE TABLE IF NOT EXISTS `file` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `token` varchar(15) CHARACTER SET latin1 NOT NULL,
-  `name` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `path` text CHARACTER SET latin1 NOT NULL,
-  `id_user` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `date_ajout` datetime NOT NULL,
+DROP TABLE IF EXISTS `files`;
+CREATE TABLE IF NOT EXISTS `files` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `token` varchar(15) NOT NULL,
+  `path` text NOT NULL,
+  `id_user` varchar(255) NOT NULL,
+  `date_ajout` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3507 DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user`
+-- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `firstName` varchar(255) NOT NULL,
-  `lastName` varchar(255) NOT NULL,
+  `creation` datetime NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3474 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
