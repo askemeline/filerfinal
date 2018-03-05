@@ -13,10 +13,9 @@ class MainController extends BaseController
     public function registerAction()
     {
     
-        if(isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])){
+        if(isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['password'])){
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
-            $username = $_POST['username'];
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $manager = new UserManager();

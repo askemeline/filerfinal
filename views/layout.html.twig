@@ -2,10 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>{% block page_title %}Filer{% endblock %}</title>
     <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#494949",
+                    },
+                    "button": {
+                        "background": "transparent",
+                        "text": "#4b81e8",
+                        "border": "#4b81e8"
+                    }
+                },
+                "content": {
+                    "message": "Cookies help us deliver our services. By using this website, you agree to our use of cookies. ",
+                    "dismiss": "Accept"
+                }
+            })});
+    </script>
+
   </head>
   <body>
-    {% block content %}{% endblock %}
+  {% block nav %}
+    <div class="nav-bar">
+      <a href="?action=home"><img id="logo" src="assets/image/filer.jpg" alt=""></a>
+      <a class="right login" href="?action=login">Log in</a>
+      <a class="right register"href="?action=register">Sign up</a>
+      <a class="right register"href="?action=logout">Log out</a>
+    </div>
+  {% endblock %}
+
+  {% block content %}
+    {% endblock %}
+
+    <div class="footer">
+        {% block footer %}
+
+          &copy; 2018 Filer
+        {% endblock %}
+    </div>
   </body>
 </html>

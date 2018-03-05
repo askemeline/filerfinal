@@ -1,4 +1,188 @@
-small
-{
-    color: purple;
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
+
+html, body, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    line-height: 1.5;
+    font-family: 'Titillium Web', sans-serif;
+    vertical-align: baseline;
+}
+
+html {
+    background-color: #fbfbfb;
+}
+
+.nav-bar {
+    background: #fff;
+    border-bottom: 1px solid #CCC;
+    line-height: 66px;
+    height: 75px;
+    /*padding: 0 50px;*/
+    position: relative;
+    width: 100%;
+}
+
+p {
+    color: #444444;
+    text-align: center;
+    /*margin-left: -190px;*/
+    /* margin-top: 10px; */
+    /*margin-bottom: 15px;*/
+    font-size: 16px;
+}
+
+.form-group {
+    color: #666;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 28px;
+    /*text-align: center;*/
+    margin: 5px;
+}
+
+button.btn.btn-primary {
+    background: #2997D5;
+    color: white;
+    cursor: pointer;
+    border: none;
+    /*width: 100%;*/
+    border-radius: 2px;
+    /*margin: 10px 0 12px 0;*/
+    height: 44px;
+    font-size: 16px;
+    text-align: center;
+    width: 359px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    border-radius: 3px;
+}
+
+.tab-panels {
+    /*padding-top: 85px;*/
+
+}
+
+.signup-terms-container {
+    text-align: center;
+    color: #494949;
+    /*margin-bottom: 50px;*/
+    font-size: 10px;
+}
+
+.footer {
+    color: #666;
+    position: relative;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    /*background-color: #efefef;*/
+    text-align: center;
+
+    font-size: 12px;
+    /*width: 100%;*/
+}
+
+a {
+    text-decoration: none;
+    margin: 10px;
+}
+
+img#logo {
+    width: 50px;
+    height: 36px;
+    margin-top: 10PX;
+}
+
+.right, .register, .login {
+    text-align: right;
+}
+
+h1 {
+    text-align: center;
+    font-size: 43px;
+    margin-top: -22px;
+
+}
+
+button.btn.btn-primary:hover {
+    background-color: #318bd5;
+}
+
+.right {
+    float: right;
+    font-size: 20px;
+
+}
+
+form {
+    background: #ffffff;
+    box-sizing: border-box;
+    padding: 35px;
+    width: 450px;
+    margin: 40px auto;
+    border-radius: 4px;
+    margin-top: 29px;
+    /*margin-bottom:0px;*/
+    border-radius: 3px;
+    -moz-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2);
+
+}
+
+input {
+    color: #373737;
+    /*text-align: center;*/
+    border: 0;
+    margin-right: 5px;
+    background: transparent;
+    border-bottom: 2px solid #d6d6d6;
+    width: 356px;
+    /*padding: 8px;*/
+    font-size: 17px;
+    height: 30px;
+    margin: 7px;
+}
+
+::placeholder {
+    color: #686868;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #686868;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #686868;
+}
+
+input:active, input:focus {
+    outline: 0;
+    border-bottom-color: #26a8ee;
+}
+
+a {
+    margin: 0;
+
+    color: #3884FF;
+}
+a:hover{
+    text-decoration: underline;
 }
