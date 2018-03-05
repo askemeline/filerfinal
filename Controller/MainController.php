@@ -48,7 +48,13 @@ class MainController extends BaseController
             }
        }    
             return $this->render('login.html.twig',$data);
-      
+    }
+    public function logoutAction()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        $this->redirectToRoute('home');
     }
 }
 
