@@ -7,6 +7,7 @@ class MainController extends BaseController
 {
     public function homeAction()
     {
+        session_start();
         return $this->render('home.html.twig');
     }
     public function registerAction()
@@ -19,14 +20,36 @@ class MainController extends BaseController
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $manager = new UserManager();
-            $users = $manager->getUser($firstname,$lastname,$username,$email,$password);
+            $users = $manager->registerUser($firstname,$lastname,$email,$password);
             $this->redirectToRoute('home');
 
         }            
             return $this->render('register.html.twig');
       
     }
-
+    public function loginAction()
+    {
+        session_start();
+        if (isset($_SESSION['u_id'])){
+            $this->redirectToRoute('home');
+        }
+        $data = [];
+        if(isset($_POST['email']) && isset($_POST['password'])){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $manager = new UserManager();
+            $loginUser = $manager->loginUser($email,$password);
+            if($loginUser !== NULL){
+            $data = [
+                'data' => $loginUser
+            ];
+            } else {
+                $this->redirectToRoute('home');
+            }
+       }    
+            return $this->render('login.html.twig',$data);
+      
+    }
 }
 
 
