@@ -14,7 +14,8 @@ class UserManager {
     public function registerUser($firstname,$lastname,$email,$password){
         $pdo = self::setPdo();
         $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :email, :password)');
-        $stmt->bindParam(':creation', date('Y-m-d H:i:s'));
+        $time = date('Y-m-d H:i:s');
+        $stmt->bindParam(':creation', $time);
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);
         $stmt->bindParam(':email', $email);
@@ -44,6 +45,17 @@ class UserManager {
                 return $error;
             }
         }
+    }
+    public function uploadFile($token, $path,$id_user){
+
+        $pdo = self::setPdo();
+        $stmt = $pdo->prepare('INSERT INTO files(id, token, path, id_user, date_ajout) VALUES(NULL, :token ,:path, :id_user, :date_ajout)');
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':path', $path);
+        $stmt->bindParam(':id_user', $id_user);
+        $stmt->bindParam(':date_ajout', date('Y-m-d H:i:s'));
+        $stmt->execute();
+
     }
     
 }
