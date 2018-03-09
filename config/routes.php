@@ -5,7 +5,9 @@ $routes = [
     'register' => 'Main:register',
     'login' => 'Main:login',
     'logout' => 'Main:logout',
-    'upload' => 'Main:upload'
+    'upload' => 'Main:upload',
+    'download' => 'Main:download'
+
 ];
 
 $config['routes'] = $routes;

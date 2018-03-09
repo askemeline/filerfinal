@@ -61,19 +61,18 @@ class MainController extends BaseController
 
     public function uploadAction()
     {
-        session_start();
-        if (isset($_FILES['userfile'])) {
+        session_start(); //lance la session
+        if (isset($_FILES['userfile'])) { // si l'input file nomme userfile est défini ou pas
             if (isset($_SESSION['u_id'])) {
                 if (!is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
                     mkdir("uploads/" . $_SESSION['u_id'] . "/", 0777, true) or die("couldn't mkdir");
-                    echo "created a dir";
                 }
-                if (is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
-                    $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/';
+                if (is_dir("uploads/" . $_SESSION['u_id'] . "/")) { // si le dossier existe
+                    $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/'; //verifie si le dossier existe
                     $tempName = $_FILES['userfile']['name'];
                     $uploadfile = $uploaddir . $tempName;
 
-                    if (file_exists($uploadfile)) {
+                    if (file_exists($uploadfile)) { // si le fichier existe deja
                         $i = 1;
                         while (file_exists($uploadfile)) {
                             $name = "(" . $i . ")" . $tempName;
@@ -84,11 +83,7 @@ class MainController extends BaseController
                         $name = $tempName;
                         $uploadfile = $uploaddir . $name;
                     }
-                    var_dump($_FILES['userfile']);
-                    var_dump($_FILES['userfile']['errors']);
-                    var_dump($_FILES['userfile']['error']);
                     if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-                        var_dump($_FILES['userfile']['tmp_name']);
                         $this->redirectToRoute('home');
                     } else {
                         echo "failed";
@@ -99,5 +94,27 @@ class MainController extends BaseController
             return $this->render('upload.html.twig');
         }
 
+    }
+    public function downloadAction(){
+        session_start();
+        if (isset($_POST['download'])) {
+            $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/'; //cree le debut du chemin du fichier
+            $file = $_POST['download']; //recuperer le fichier de l'input download
+            $uploadfile = $uploaddir . $file;
+
+
+            if (file_exists($uploadfile)) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . basename($uploadfile) . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($uploadfile));
+                readfile($uploadfile);
+                exit;
+            }
+        }
+        return $this->render('download.html.twig');
     }
 }
