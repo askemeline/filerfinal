@@ -62,18 +62,42 @@ class MainController extends BaseController
     public function uploadAction()
     {
         session_start();
-        if (isset($_SESSION['u_id'])) {
-            if (!is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
-                mkdir("uploads/" . $_SESSION['u_id'] . "/", 0777, true) or die("couldn't mkdir");
-                $this->redirectToRoute('home');
-            }
-            if (is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
-                echo "is dir";
-            }
-        }
-            else {
-                    $this->redirectToRoute('home');
+        if (isset($_FILES['userfile'])) {
+            if (isset($_SESSION['u_id'])) {
+                if (!is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
+                    mkdir("uploads/" . $_SESSION['u_id'] . "/", 0777, true) or die("couldn't mkdir");
+                    echo "created a dir";
                 }
+                if (is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
+                    $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/';
+                    $tempName = $_FILES['userfile']['name'];
+                    $uploadfile = $uploaddir . $tempName;
 
+                    if (file_exists($uploadfile)) {
+                        $i = 1;
+                        while (file_exists($uploadfile)) {
+                            $name = "(" . $i . ")" . $tempName;
+                            $uploadfile = $uploaddir . $name;
+                            $i++;
+                        }
+                    } else {
+                        $name = $tempName;
+                        $uploadfile = $uploaddir . $name;
+                    }
+                    var_dump($_FILES['userfile']);
+                    var_dump($_FILES['userfile']['errors']);
+                    var_dump($_FILES['userfile']['error']);
+                    if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+                        var_dump($_FILES['userfile']['tmp_name']);
+                        $this->redirectToRoute('home');
+                    } else {
+                        echo "failed";
+                    }
+                }
+            }
+        } else {
+            return $this->render('upload.html.twig');
         }
+
+    }
 }
