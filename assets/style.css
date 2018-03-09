@@ -43,7 +43,8 @@ p {
     /*margin-left: -190px;*/
     /* margin-top: 10px; */
     /*margin-bottom: 15px;*/
-    font-size: 16px;
+    margin-top: 5px;
+    font-size: 11px;
 }
 
 .form-group {
@@ -157,6 +158,7 @@ input {
     /*padding: 8px;*/
     font-size: 17px;
     height: 30px;
+    margin: 7px;
     margin: 7px;
 }
 
