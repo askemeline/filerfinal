@@ -1,7 +1,7 @@
 <?php
 
-require_once('Cool/BaseController.php');
-require_once('Model/UserManager.php');
+require_once 'Cool/BaseController.php';
+require_once 'Model/UserManager.php';
 
 class MainController extends BaseController
 {
@@ -10,15 +10,18 @@ class MainController extends BaseController
         $data = [];
         session_start();
         if (isset($_SESSION['u_id'])) {
-            $data = [
-                'session' => $_SESSION
-            ];
+            $data['session'] = $_SESSION;
         }
-        return $this->render('home.html.twig',$data);
+        return $this->render('home.html.twig', $data);
     }
 
     public function registerAction()
     {
+        $data = [];
+        session_start();
+        if (isset($_SESSION['u_id'])) {
+            $this->redirectToRoute('home');
+        }
         if (isset($_POST['firstname']) && isset($_POST['lastname']) && isset($_POST['email']) && isset($_POST['password'])) {
             $firstname = $_POST['firstname'];
             $lastname = $_POST['lastname'];
@@ -28,24 +31,24 @@ class MainController extends BaseController
             $users = $manager->registerUser($firstname, $lastname, $email, $password);
             $this->redirectToRoute('home');
         }
-        return $this->render('register.html.twig');
+        return $this->render('register.html.twig', $data);
     }
 
     public function loginAction()
     {
+        $data = [];
         session_start();
         if (isset($_SESSION['u_id'])) {
-            var_dump($_SESSION);
+            $this->redirectToRoute('home');
         }
-        $data = [];
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
             $password = $_POST['password'];
             $manager = new UserManager();
             $loginUser = $manager->loginUser($email, $password);
-            if ($loginUser !== NULL) {
+            if ($loginUser !== null) {
                 $data = [
-                    'data' => $loginUser
+                    'data' => $loginUser,
                 ];
             } else {
                 $this->redirectToRoute('home');
@@ -64,9 +67,11 @@ class MainController extends BaseController
 
     public function uploadAction()
     {
+        $data = [];
         session_start(); //lance la session
-        if (isset($_FILES['userfile'])) { // si l'input file nomme userfile est défini ou pas
-            if (isset($_SESSION['u_id'])) {
+        if (isset($_SESSION['u_id'])) {
+            $data['session'] = $_SESSION;
+            if (isset($_FILES['userfile'])) { // si l'input file nomme userfile est défini ou pas
                 if (!is_dir("uploads/" . $_SESSION['u_id'] . "/")) {
                     mkdir("uploads/" . $_SESSION['u_id'] . "/", 0777, true) or die("couldn't mkdir");
                 }
@@ -91,30 +96,38 @@ class MainController extends BaseController
                         echo "failed";
                     }
                 }
-            }
+            } else{
+                return $this->render('upload.html.twig', $data);
+            }  
         } else {
-            return $this->render('upload.html.twig');
+            $this->redirectToRoute('home');
         }
 
     }
-    public function downloadAction(){
+    public function downloadAction()
+    {
         session_start();
-        if (isset($_POST['download'])) {
-            $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/'; //cree le debut du chemin du fichier
-            $file = $_POST['download']; //recuperer le fichier de l'input download
-            $uploadfile = $uploaddir . $file;
-            if (file_exists($uploadfile)) {
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header('Content-Disposition: attachment; filename="' . basename($uploadfile) . '"');
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Pragma: public');
-                header('Content-Length: ' . filesize($uploadfile));
-                readfile($uploadfile);
-                exit;
+        if (isset($_SESSION['u_id'])) {
+            $data['session'] = $_SESSION;
+            if (isset($_POST['download'])) {
+                $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/'; //cree le debut du chemin du fichier
+                $file = $_POST['download']; //recuperer le fichier de l'input download
+                $uploadfile = $uploaddir . $file;
+                if (file_exists($uploadfile)) {
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: application/octet-stream');
+                    header('Content-Disposition: attachment; filename="' . basename($uploadfile) . '"');
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate');
+                    header('Pragma: public');
+                    header('Content-Length: ' . filesize($uploadfile));
+                    readfile($uploadfile);
+                    exit;
+                }
             }
+            return $this->render('download.html.twig', $data);
+        } else {
+            $this->redirectToRoute('home');
         }
-        return $this->render('download.html.twig');
     }
 }

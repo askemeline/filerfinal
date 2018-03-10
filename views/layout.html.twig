@@ -11,13 +11,16 @@
     <a href="?action=home">
       <img id="logo" src="assets/image/filer.jpg" alt="">
     </a>
-    <a class="right login" href="?action=login">Log in</a>
-    <a class="right register" href="?action=register">Sign up</a>
+    {% if session['u_id'] is not defined %}
+      <a class="right register" href="?action=register">Sign up</a>
+      <a class="right login" href="?action=login">Log in</a>
+     {% endif %}
     {% if session['u_id'] is defined %}
       <a class="right register" href="?action=logout">Log out</a>
+      <a class="right register" href="?action=upload">upload</a>
+      <a class="right register" href="?action=download">download</a>
     {% endif %}
-    <a class="right register" href="?action=upload">upload</a>
-    <a class="right register" href="?action=logout">download</a>
+
   </div>
   {% endblock %}
    {% block content %} 
