@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>{% block page_title %}Filer{% endblock %}</title>
-    <link rel="stylesheet" href="assets/style.css">
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>{% block page_title %}Filer{% endblock %}</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
   {% block nav %}
-    <div class="nav-bar">
-      <a href="?action=home"><img id="logo" src="assets/image/filer.jpg" alt=""></a>
-      <a class="right login" href="?action=login">Log in</a>
-      <a class="right register"href="?action=register">Sign up</a>
-      <a class="right register"href="?action=logout">Log out</a>
-    </div>
+  <div class="nav-bar">
+    <a href="?action=home">
+      <img id="logo" src="assets/image/filer.jpg" alt="">
+    </a>
+    <a class="right login" href="?action=login">Log in</a>
+    <a class="right register" href="?action=register">Sign up</a>
+    {% if session['u_id'] is defined %}
+      <a class="right register" href="?action=logout">Log out</a>
+    {% endif %}
+    <a class="right register" href="?action=upload">upload</a>
+    <a class="right register" href="?action=logout">download</a>
+  </div>
   {% endblock %}
+   {% block content %} 
+   {% endblock %}
 
-  {% block content %}
-    {% endblock %}
-
-    <div class="footer">
-        {% block footer %}
-
-          &copy; 2018 Filer
-        {% endblock %}
-    </div>
-  </body>
+  <div class="footer">
+    {% block footer %} &copy; 2018 Filer {% endblock %}
+  </div>
+</body>
 </html>
