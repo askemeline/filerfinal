@@ -1,21 +1,13 @@
 <?php
 
-require_once('Cool/DBManager.php');
+require_once ('Model/BaseManager.php');
 
-class UserManager {
+class UserManager extends BaseManager{
 
-    public function setPdo(){
-        $dbm = DBManager::getInstance();
-        $pdo = $dbm->getPdo();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-        }
-    
     public function registerUser($firstname,$lastname,$email,$password){
-        $pdo = self::setPdo();
+        $pdo = $this->setPdo();
         $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :email, :password)');
-        $time = date('Y-m-d H:i:s');
-        $stmt->bindParam(':creation', $time);
+        $stmt->bindParam(':creation', date('Y-m-d H:i:s'));
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);
         $stmt->bindParam(':email', $email);
@@ -24,7 +16,7 @@ class UserManager {
     }
     public function loginUser($email,$password){
 
-        $pdo = self::setPdo();
+        $pdo = $this->setPdo();
         $stmt = $pdo->prepare('SELECT * FROM `users` WHERE email = :email');
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -46,16 +38,4 @@ class UserManager {
             }
         }
     }
-    public function uploadFile($token, $path,$id_user){
-
-        $pdo = self::setPdo();
-        $stmt = $pdo->prepare('INSERT INTO files(id, token, path, id_user, date_ajout) VALUES(NULL, :token ,:path, :id_user, :date_ajout)');
-        $stmt->bindParam(':token', $token);
-        $stmt->bindParam(':path', $path);
-        $stmt->bindParam(':id_user', $id_user);
-        $stmt->bindParam(':date_ajout', date('Y-m-d H:i:s'));
-        $stmt->execute();
-
-    }
-    
 }
