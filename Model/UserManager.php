@@ -32,6 +32,7 @@ class UserManager extends BaseManager{
                 $_SESSION['u_first'] = $result['firstname'];
                 $_SESSION['u_last'] = $result['lastname'];
                 $_SESSION['u_email'] = $result['email'];
+                $_SESSION['path'] = "uploads/".$_SESSION['u_id']."/";
             } else {
                 $error = "Invalid username or password";
                 return $error;

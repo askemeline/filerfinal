@@ -113,20 +113,10 @@ class MainController extends BaseController
         if (isset($_SESSION['u_id'])) {
             $data['session'] = $_SESSION;
             if (isset($_POST['download'])) {
-                $uploaddir = 'uploads/' . $_SESSION['u_id'] . '/'; //cree le debut du chemin du fichier
-                $file = $_POST['download']; //recuperer le fichier de l'input download
-                $uploadfile = $uploaddir . $file;
-                if (file_exists($uploadfile)) {
-                    header('Content-Description: File Transfer');
-                    header('Content-Type: application/octet-stream');
-                    header('Content-Disposition: attachment; filename="' . basename($uploadfile) . '"');
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Pragma: public');
-                    header('Content-Length: ' . filesize($uploadfile));
-                    readfile($uploadfile);
-                    exit;
-                }
+                $path = $_SESSION['path'].$_POST['download'];
+                $manager = new FileManager();
+                $manager->downloadFile($path);
+                $this->redirectToRoute('home');
             }
             return $this->render('download.html.twig', $data);
         } else {

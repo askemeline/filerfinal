@@ -13,4 +13,19 @@ class FileManager extends BaseManager{
         $stmt->bindParam(':date_ajout', date('Y-m-d H:i:s'));
         $stmt->execute();
     }
+    public function downloadFile($selectedFile){
+        if (file_exists($selectedFile)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($selectedFile) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($selectedFile));
+            readfile($selectedFile);
+            exit;
+        } else {
+            return false;
+        }
+    }
 }
