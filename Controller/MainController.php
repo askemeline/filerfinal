@@ -2,6 +2,7 @@
 
 require_once 'Cool/BaseController.php';
 require_once 'Model/UserManager.php';
+require_once 'Model/FileManager.php';
 
 class MainController extends BaseController
 {
@@ -91,6 +92,8 @@ class MainController extends BaseController
                         $uploadfile = $uploaddir . $name;
                     }
                     if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+                        $manager = new FileManager();
+                        $manager->uploadFile($uploadfile,$_SESSION['u_id']);
                         $this->redirectToRoute('home');
                     } else {
                         echo "failed";
