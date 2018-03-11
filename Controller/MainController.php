@@ -34,10 +34,10 @@ class MainController extends BaseController
             $manager = new UserManager();
             $users = $manager->registerUser($firstname, $lastname, $email, $password);
             if($users === true){
-            error_log($email." viens de s'inscrire", 3, "log/access.log");  
+            error_log("[". date('Y-m-d H:i:s') . "] ".$email." viens de s'inscrire", 3, "log/access.log");  
             } else {
                 $data['errors'] == "Something Bad Happend, Please Try later !";
-                error_log("l'inscription de ". $email . " a echouer", 3, "log/security.log");
+                error_log("[". date('Y-m-d H:i:s') . "] "."l'inscription de ". $email . " a echouer", 3, "log/security.log");
                 return $this->render('register.html.twig', $data);
             }
             $this->redirectToRoute('home');
@@ -51,7 +51,7 @@ class MainController extends BaseController
         session_start();
         if (isset($_SESSION['u_id'])) {
             $this->redirectToRoute('home');
-            error_log("l'utilisateur ". $_SESSION['u_email'] . " a tenter d'aller sur un lieu interdit", 3, "log/security.log");
+            error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a tenter d'aller sur un lieu interdit", 3, "log/security.log");
         }
         if (isset($_POST['email']) && isset($_POST['password'])) {
             $email = $_POST['email'];
@@ -60,9 +60,10 @@ class MainController extends BaseController
             $loginUser = $manager->loginUser($email, $password);
             if ($loginUser === false) {
                 $data['errors'] == "Something Bad Happend, Please Try later !";
-                error_log("l'utilisateur ". $email . " a echouer la connexion", 3, "log/security.log");
+                
+                error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $email . " a echouer la connexion", 3, "log/security.log");
             } else {
-                error_log("l'utilisateur ". $_SESSION['u_email'] . " s'est connecter", 3, "log/access.log");
+                error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " s'est connecter", 3, "log/access.log");
                 $this->redirectToRoute('home');
             }
         }
@@ -72,7 +73,7 @@ class MainController extends BaseController
     public function logoutAction()
     {
         session_start();
-        error_log("l'utilisateur ". $_SESSION['u_email'] . " s'est deconnecter", 3, "log/access.log");
+        error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " s'est deconnecter", 3, "log/access.log");
         session_unset();
         session_destroy();
         $this->redirectToRoute('home');
@@ -88,19 +89,19 @@ class MainController extends BaseController
                 $manager = new FileManager();
                 $uploaded = $manager->uploadFile($_FILES['userfile'],$_POST['name']);
                 if ($uploaded === true){
-                    error_log("l'utilisateur ". $_SESSION['u_email'] . " a upload ".$_FILES['userfile']['name'], 3, "log/access.log");
+                    error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a upload ".$_FILES['userfile']['name'], 3, "log/access.log");
                     $this->redirectToRoute('home');
                 }
                 else{
                     $data['errors'] == "Something Bad Happend, Please Try later !"; 
-                    error_log("l'utilisateur ". $_SESSION['u_email'] . " a echouer l'upload ", 3, "log/security.log");
+                    error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer l'upload ", 3, "log/security.log");
                     return $this->render('upload.html.twig', $data);
                 }
             } else {
                 return $this->render('upload.html.twig', $data);
             }
         } else {
-            error_log("un utilisateur a tenter d'acceder a cette page sans compte ".$_FILES['userfile']['name'], 3, "log/security.log");
+            error_log("[". date('Y-m-d H:i:s') . "] "."un utilisateur a tenter d'acceder a cette page sans compte ".$_FILES['userfile']['name'], 3, "log/security.log");
             $this->redirectToRoute('home');
         }
 
@@ -116,7 +117,7 @@ class MainController extends BaseController
                $downloaded = $manager->downloadFile($path);
                if ($downloaded === false) {
                 $data['errors'] == "Something Bad Happend, Please Try later !";
-                error_log("l'utilisateur ". $_SESSION['u_email'] . " a echouer le download", 3, "log/security.log");
+                error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le download", 3, "log/security.log");
                 return $this->render('edit.html.twig', $data);
                 }
             } else if (isset($_POST['deleteButton'])) {
@@ -124,7 +125,7 @@ class MainController extends BaseController
                 $deleted = $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
                 if ($deleted === false) {
                     $data['errors'] == "Something Bad Happend, Please Try later !";
-                    error_log("l'utilisateur ". $_SESSION['u_email'] . " a echouer le delete de ".$_POST['secretName'], 3, "log/security.log");
+                    error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le delete de ".$_POST['secretName'], 3, "log/security.log");
                     return $this->render('edit.html.twig', $data);
                     }
             } else if (isset($_POST['renameButton'])) {
@@ -132,7 +133,7 @@ class MainController extends BaseController
                 $renamed = $manager->renameFile($_POST['newName'],$_POST['secretName'],$_POST['secretToken']);
                 if ($renamed === false) {
                     $data['errors'] == "Something Bad Happend, Please Try later !";
-                    error_log("l'utilisateur ". $_SESSION['u_email'] . " a echouer le rename de ".$_POST['secretName'], 3, "log/security.log");
+                    error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le rename de ".$_POST['secretName'], 3, "log/security.log");
                     return $this->render('edit.html.twig', $data);
                     }
             } else {
