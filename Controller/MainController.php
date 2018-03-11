@@ -36,7 +36,7 @@ class MainController extends BaseController
             if($users === true){
             error_log("[". date('Y-m-d H:i:s') . "] ".$email." viens de s'inscrire", 3, "log/access.log");  
             } else {
-                $data['errors'] == "Something Bad Happend, Please Try later !";
+                $data['errors'] = "Something Bad Happend, Please Try later !";
                 error_log("[". date('Y-m-d H:i:s') . "] "."l'inscription de ". $email . " a echouer", 3, "log/security.log");
                 return $this->render('register.html.twig', $data);
             }
@@ -59,7 +59,7 @@ class MainController extends BaseController
             $manager = new UserManager();
             $loginUser = $manager->loginUser($email, $password);
             if ($loginUser === false) {
-                $data['errors'] == "Something Bad Happend, Please Try later !";
+                $data['errors'] = "Something Bad Happend, Please Try later !";
                 
                 error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $email . " a echouer la connexion", 3, "log/security.log");
             } else {
@@ -93,7 +93,7 @@ class MainController extends BaseController
                     $this->redirectToRoute('home');
                 }
                 else{
-                    $data['errors'] == "Something Bad Happend, Please Try later !"; 
+                    $data['errors'] = "Something Bad Happend, Please Try later !"; 
                     error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer l'upload ", 3, "log/security.log");
                     return $this->render('upload.html.twig', $data);
                 }
@@ -116,7 +116,7 @@ class MainController extends BaseController
                 $manager = new FileManager();
                $downloaded = $manager->downloadFile($path);
                if ($downloaded === false) {
-                $data['errors'] == "Something Bad Happend, Please Try later !";
+                $data['errors'] = "Something Bad Happend, Please Try later !";
                 error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le download", 3, "log/security.log");
                 return $this->render('edit.html.twig', $data);
                 }
@@ -124,7 +124,7 @@ class MainController extends BaseController
                 $manager = new FileManager();
                 $deleted = $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
                 if ($deleted === false) {
-                    $data['errors'] == "Something Bad Happend, Please Try later !";
+                    $data['errors'] = "Something Bad Happend, Please Try later !";
                     error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le delete de ".$_POST['secretName'], 3, "log/security.log");
                     return $this->render('edit.html.twig', $data);
                     }
@@ -132,7 +132,7 @@ class MainController extends BaseController
                 $manager = new FileManager();
                 $renamed = $manager->renameFile($_POST['newName'],$_POST['secretName'],$_POST['secretToken']);
                 if ($renamed === false) {
-                    $data['errors'] == "Something Bad Happend, Please Try later !";
+                    $data['errors'] = "Something Bad Happend, Please Try later !";
                     error_log("[". date('Y-m-d H:i:s') . "] "."l'utilisateur ". $_SESSION['u_email'] . " a echouer le rename de ".$_POST['secretName'], 3, "log/security.log");
                     return $this->render('edit.html.twig', $data);
                     }

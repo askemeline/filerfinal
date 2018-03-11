@@ -36,6 +36,7 @@ class FileManager extends BaseManager
                 } else {
                     return false;
                 }
+                return true;
             } else {
                 return false;
             }
@@ -59,6 +60,7 @@ class FileManager extends BaseManager
         $stmt->bindParam(':id_user', $_SESSION['u_id']);
         $stmt->bindParam(':date_ajout', $time);
         $stmt->execute();
+        return true;
 
     }
     public function downloadFile($selectedFile)

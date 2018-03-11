@@ -11,15 +11,18 @@ class UserManager extends BaseManager{
         $stmt->execute();
         $count = $stmt->rowCount();
         if($count > 0){
+            var_dump($count);
             return false;
         } else {
         $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :email, :password)');
-        $stmt->bindParam(':creation', date('Y-m-d H:i:s'));
+        $time = date('Y-m-d H:i:s');
+        $stmt->bindParam(':creation', $time);
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
+        return true;
         }
     }
     public function loginUser($email,$password){
