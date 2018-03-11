@@ -1,9 +1,11 @@
 <?php
-require_once ('Model/BaseManager.php');
+require_once 'Model/BaseManager.php';
 
-class FileManager extends BaseManager{
+class FileManager extends BaseManager
+{
 
-    public function uploadFile($file){
+    public function uploadFile($file)
+    {
         $manager = new UserManager();
         $dir = $manager->verifyDir($_SESSION['u_id']);
         if ($dir === true) {
@@ -31,24 +33,26 @@ class FileManager extends BaseManager{
             return false;
         }
     }
-    public function insertFile($file,$name,$path){
-
+    public function insertFile($file, $name, $path)
+    {
         $pdo = $this->setPdo();
         $stmt = $pdo->prepare('INSERT INTO files(id, name, extension, type, size, token, path, id_user, date_ajout) VALUES(NULL, :name, :extension, :type, :size, :token, :path, :id_user, :date_ajout)');
         $token = bin2hex(openssl_random_pseudo_bytes(8));
         $time = date('Y-m-d H:i:s');
         $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $stmt->bindParam(':name',$name);
+        $stmt->bindParam(':name', $name);
         $stmt->bindParam(':extension', $fileExt);
         $stmt->bindParam(':type', $file['type']);
-        $stmt->bindParam(':size',$file['size']);
-        $stmt->bindParam(':token',$token);
+        $stmt->bindParam(':size', $file['size']);
+        $stmt->bindParam(':token', $token);
         $stmt->bindParam(':path', $path);
         $stmt->bindParam(':id_user', $_SESSION['u_id']);
         $stmt->bindParam(':date_ajout', $time);
         $stmt->execute();
+        
     }
-    public function downloadFile($selectedFile){
+    public function downloadFile($selectedFile)
+    {
         if (file_exists($selectedFile)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -63,7 +67,8 @@ class FileManager extends BaseManager{
             return false;
         }
     }
-    public function showFiles(){
+    public function showFiles()
+    {
         $pdo = $this->setPdo();
         $stmt = $pdo->prepare('SELECT * FROM `files` WHERE  id_user = :id');
         $stmt->bindParam(':id', $_SESSION['u_id']);
@@ -71,7 +76,8 @@ class FileManager extends BaseManager{
         $result = $stmt->fetchAll();
         return $result;
     }
-    public function deleteFile($selectedFile,$selectedToken){
+    public function deleteFile($selectedFile, $selectedToken)
+    {
         $pdo = $this->setPdo();
         $selectStmt = $pdo->prepare('SELECT * FROM `files` WHERE  name = :name AND id_user = :id AND token = :token');
         $selectStmt->bindParam(':id', $_SESSION['u_id']);
@@ -85,8 +91,26 @@ class FileManager extends BaseManager{
         $deleteStmt->bindParam(':name', $selectedFile);
         $deleteStmt->bindParam(':token', $selectedToken);
         $deleteStmt->execute();
-    }    
-    public function renameFile($selectedFile){
-    
+    }
+    public function renameFile($newName,$selectedFile,$selectedToken)
+    {
+        if (htmlentities($newName) !== "" && strlen(htmlentities($newName)) <= 30) {
+            $tempName = str_replace('/', '', htmlentities($newName));
+            $oldPath = $_SESSION['path'] . $selectedFile;
+            $newPath = $_SESSION['path'] . $tempName;
+            if (file_exists($newPath)) {
+                return false;
+            } else {
+                $pdo = $this->setPdo();
+                $deleteStmt = $pdo->prepare('UPDATE `files` SET name = :newfileName, path = :newPath WHERE  name = :name AND id_user = :id AND token = :token');
+                $deleteStmt->bindParam(':newfileName', $tempName);
+                $deleteStmt->bindParam(':newPath', $newPath);
+                $deleteStmt->bindParam(':id', $_SESSION['u_id']);
+                $deleteStmt->bindParam(':name', $selectedFile);
+                $deleteStmt->bindParam(':token', $selectedToken);
+                $deleteStmt->execute();
+                rename($oldPath, $newPath);
+            }
+        }
     }
 }

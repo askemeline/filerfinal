@@ -103,12 +103,13 @@ class MainController extends BaseController
                 $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
             } else if (isset($_POST['renameButton'])) {
                 $manager = new FileManager();
-                $manager->renameFile($path);
+                $manager->renameFile($_POST['newName'],$_POST['secretName'],$_POST['secretToken']);
             } else {
                 $this->redirectToRoute('home');
             }
         } else {
             $this->redirectToRoute('home');
         }
+        $this->redirectToRoute('home');
     }
 }
