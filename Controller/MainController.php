@@ -77,7 +77,7 @@ class MainController extends BaseController
             $data['session'] = $_SESSION;
             if (isset($_FILES['userfile'])) { // si l'input file nomme userfile est défini ou pas
                 $manager = new FileManager();
-                $uploaded = $manager->uploadFile($_SESSION,$_FILES['userfile']);
+                $uploaded = $manager->uploadFile($_FILES['userfile']);
                 if ($uploaded === true){
                     $this->redirectToRoute('home');
                 }
@@ -94,12 +94,16 @@ class MainController extends BaseController
         session_start();
         if (isset($_SESSION['u_id'])) {
             $selectedFile = str_replace('/', '', $_POST['secretName']);
+            $path = $_SESSION['path'] . $_POST['secretName'];
             if (isset($_POST['downloadButton'])) {
-                $path = $_SESSION['path'] . $_POST['secretName'];
                 $manager = new FileManager();
                 $manager->downloadFile($path);
             } else if (isset($_POST['deleteButton'])) {
+                $manager = new FileManager();
+                $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
             } else if (isset($_POST['renameButton'])) {
+                $manager = new FileManager();
+                $manager->renameFile($path);
             } else {
                 $this->redirectToRoute('home');
             }

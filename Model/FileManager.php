@@ -3,7 +3,7 @@ require_once ('Model/BaseManager.php');
 
 class FileManager extends BaseManager{
 
-    public function uploadFile($session,$file){
+    public function uploadFile($file){
         $manager = new UserManager();
         $dir = $manager->verifyDir($_SESSION['u_id']);
         if ($dir === true) {
@@ -22,7 +22,7 @@ class FileManager extends BaseManager{
                 $uploadfile = $uploaddir . $name;
             }
             if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-                self::insertFile($_FILES['userfile'], $name, $uploadfile, $_SESSION['u_id']);
+                self::insertFile($_FILES['userfile'], $name, $uploadfile);
                 return true;
             } else {
                 echo "failed";
@@ -31,7 +31,7 @@ class FileManager extends BaseManager{
             return false;
         }
     }
-    public function insertFile($file,$name,$path,$id_user){
+    public function insertFile($file,$name,$path){
 
         $pdo = $this->setPdo();
         $stmt = $pdo->prepare('INSERT INTO files(id, name, extension, type, size, token, path, id_user, date_ajout) VALUES(NULL, :name, :extension, :type, :size, :token, :path, :id_user, :date_ajout)');
@@ -44,7 +44,7 @@ class FileManager extends BaseManager{
         $stmt->bindParam(':size',$file['size']);
         $stmt->bindParam(':token',$token);
         $stmt->bindParam(':path', $path);
-        $stmt->bindParam(':id_user', $id_user);
+        $stmt->bindParam(':id_user', $_SESSION['u_id']);
         $stmt->bindParam(':date_ajout', $time);
         $stmt->execute();
     }
@@ -70,5 +70,23 @@ class FileManager extends BaseManager{
         $stmt->execute();
         $result = $stmt->fetchAll();
         return $result;
+    }
+    public function deleteFile($selectedFile,$selectedToken){
+        $pdo = $this->setPdo();
+        $selectStmt = $pdo->prepare('SELECT * FROM `files` WHERE  name = :name AND id_user = :id AND token = :token');
+        $selectStmt->bindParam(':id', $_SESSION['u_id']);
+        $selectStmt->bindParam(':name', $selectedFile);
+        $selectStmt->bindParam(':token', $selectedToken);
+        $selectStmt->execute();
+        $result = $selectStmt->fetch();
+        unlink($result['path']);
+        $deleteStmt = $pdo->prepare('DELETE FROM `files` WHERE  name = :name AND id_user = :id AND token = :token');
+        $deleteStmt->bindParam(':id', $_SESSION['u_id']);
+        $deleteStmt->bindParam(':name', $selectedFile);
+        $deleteStmt->bindParam(':token', $selectedToken);
+        $deleteStmt->execute();
+    }    
+    public function renameFile($selectedFile){
+    
     }
 }
