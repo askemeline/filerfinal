@@ -1,22 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le :  mar. 20 fév. 2018 à 14:50
--- Version du serveur :  5.7.19
--- Version de PHP :  7.1.9
+-- Hôte : localhost:3306
+-- Généré le :  Dim 11 mars 2018 à 12:39
+-- Version du serveur :  5.6.38
+-- Version de PHP :  7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Base de données :  `filerfinal`
@@ -28,14 +20,16 @@ SET time_zone = "+00:00";
 -- Structure de la table `files`
 --
 
-DROP TABLE IF EXISTS `files`;
-CREATE TABLE IF NOT EXISTS `files` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `files` (
+  `id` int(10) NOT NULL,
+  `name` varchar(65) NOT NULL,
+  `extension` varchar(10) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `size` int(20) NOT NULL,
   `token` varchar(15) NOT NULL,
   `path` text NOT NULL,
   `id_user` varchar(255) NOT NULL,
-  `date_ajout` date NOT NULL,
-  PRIMARY KEY (`id`)
+  `date_ajout` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -44,29 +38,44 @@ CREATE TABLE IF NOT EXISTS `files` (
 -- Structure de la table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `mainfolderid` int(10) NOT NULL,
   `creation` datetime NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `password` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `users`
+-- Index pour les tables déchargées
 --
 
-INSERT INTO `users` (`id`, `creation`, `firstname`, `lastname`, `username`, `email`, `password`) VALUES
-(1, '2018-02-20 14:40:50', 'aa', 'aa', 'aa', 'aa@aa.com', '$2y$10$KbrLAwdNR5d3NXjhioNTv.Z8RH9HAwMdBDrU/u.cPY.tC03uTt4/e'),
-(2, '2018-02-20 14:40:50', 'aa', 'aa', 'aa', 'aa@aa.com', '$2y$10$KbrLAwdNR5d3NXjhioNTv.Z8RH9HAwMdBDrU/u.cPY.tC03uTt4/e'),
-(3, '2018-02-20 14:41:12', 'aa', 'aa', 'aa', 'aa@cc.com', '$2y$10$539p5wZnaxfSe5loea8ioekKXrRFogpyz.1MyGoo5Br3iahJ3AAV6'),
-(4, '2018-02-20 14:41:12', 'aa', 'aa', 'aa', 'aa@cc.com', '$2y$10$539p5wZnaxfSe5loea8ioekKXrRFogpyz.1MyGoo5Br3iahJ3AAV6');
-COMMIT;
+--
+-- Index pour la table `files`
+--
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `files`
+--
+ALTER TABLE `files`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
