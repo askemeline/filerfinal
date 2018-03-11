@@ -11,6 +11,8 @@ class FileManager extends BaseManager
         if ($dir === true) {
             $uploaddir = $_SESSION['path']; //verifie si le dossier existe
             $tempName = $_FILES['userfile']['name'];
+            $tempName = str_replace('/', '', htmlentities($tempName));
+            $tempName = str_replace('..', '', $tempName);
             $uploadfile = $uploaddir . $tempName;
             if (file_exists($uploadfile)) { // si le fichier existe deja
                 $i = 1;
@@ -96,6 +98,7 @@ class FileManager extends BaseManager
     {
         if (htmlentities($newName) !== "" && strlen(htmlentities($newName)) <= 30) {
             $tempName = str_replace('/', '', htmlentities($newName));
+            $tempName = str_replace('..', '', $tempName);
             $oldPath = $_SESSION['path'] . $selectedFile;
             $newPath = $_SESSION['path'] . $tempName;
             if (file_exists($newPath)) {
