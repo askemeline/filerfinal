@@ -6,6 +6,13 @@ class UserManager extends BaseManager{
 
     public function registerUser($firstname,$lastname,$email,$password){
         $pdo = $this->setPdo();
+        $stmt = $pdo->prepare('SELECT * FROM `users` WHERE email = :email');
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if($count > 0){
+            return false;
+        } else {
         $stmt = $pdo->prepare('INSERT INTO users(id, creation, firstname, lastname, email, password) VALUES(NULL, :creation ,:firstname, :lastname, :email, :password)');
         $stmt->bindParam(':creation', date('Y-m-d H:i:s'));
         $stmt->bindParam(':firstname', $firstname);
@@ -13,6 +20,7 @@ class UserManager extends BaseManager{
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
+        }
     }
     public function loginUser($email,$password){
 
@@ -22,8 +30,7 @@ class UserManager extends BaseManager{
         $stmt->execute();
         $count = $stmt->rowCount();
         if($count != 1){
-            $error = "Invalid username or password";
-            return $error;
+            return $false;
         } else {
             $result = $stmt->fetch();
             $hash = $result['password'];
