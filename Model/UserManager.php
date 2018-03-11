@@ -39,4 +39,10 @@ class UserManager extends BaseManager{
             }
         }
     }
+    public function verifyDir($id){
+        if (!is_dir("uploads/" . $id . "/")) {
+            mkdir("uploads/" . $id . "/", 0777, true);
+        }
+        return true;
+    }
 }
