@@ -77,7 +77,7 @@ class MainController extends BaseController
             $data['session'] = $_SESSION;
             if (isset($_FILES['userfile'])) { // si l'input file nomme userfile est défini ou pas
                 $manager = new FileManager();
-                $uploaded = $manager->uploadFile($_FILES['userfile']);
+                $uploaded = $manager->uploadFile($_FILES['userfile'],$_POST['name']);
                 if ($uploaded === true){
                     $this->redirectToRoute('home');
                 }
