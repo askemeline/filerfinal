@@ -58,10 +58,8 @@ class MainController extends BaseController
             $password = $_POST['password'];
             $manager = new UserManager();
             $loginUser = $manager->loginUser($email, $password);
-            if ($loginUser !== null) {
-                $data = [
-                    'data' => $loginUser,
-                ];
+            if ($loginUser === false) {
+                $data['errors'] == "Something Bad Happend, Please Try later !";
                 error_log("l'utilisateur ". $email . " a echouer la connexion", 3, "log/security.log");
             } else {
                 error_log("l'utilisateur ". $_SESSION['u_email'] . " s'est connecter", 3, "log/access.log");
