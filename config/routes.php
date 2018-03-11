@@ -6,7 +6,7 @@ $routes = [
     'login' => 'Main:login',
     'logout' => 'Main:logout',
     'upload' => 'Main:upload',
-    'download' => 'Main:download'
+    'edit' => 'Main:edit'
 
 ];
 
