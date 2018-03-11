@@ -6,7 +6,7 @@
 {% if data is not empty %}
     <p> {{data}} </p>
 {% endif %}
-   <form action="?action=login" method="POST">
+   <form action="?action=login" method="POST" class="connect">
        <h1>Sign in</h1>
         <div class="form-group">
             <input placeholder="Email" type="email" name="email" id="email" class="form-control" value="">
@@ -14,7 +14,7 @@
         <div class="form-group">
             <input placeholder="password" type="password" name="password" id="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Next</button>
+        <button type="submit" class="btn btn-primary">Login</button>
     </form>
 </div>
 
