@@ -3,25 +3,23 @@
 {% block page_title %}final filer{% endblock %}
 
 {% block content %}
-    {% if session['u_id'] is not defined %}
+    {% if session is not defined %}
         <h1>Put your creative energy to work, with Filer</h1>
         <p>Filer is a modern workspace designed to reduce busywork—so you can focus on the things that matter.</p>
-    {% endif %}
-    {% if session['u_id'] is defined %}
+    {% else %}
         <h1>List of files : </h1>
-    {% endif %}
 {% for file in files %}
-
 <div class="fileView">
-<p title={{'ajout:' ~ file['date_ajout'] }}>{{ file['name'] }}</p>
+<p class="fileName" title={{'ajout:' ~ file['date_ajout'] }}>{{ file['name'] }}</p>
 <form action="?action=edit" class="edit" method="POST">
 <input type="hidden" name="secretName" value="{{file['name']}}">
 <input type="hidden" name="secretToken" value="{{file['token']}}">
-<input type="text" name="newName">
-<input type="submit" name="renameButton" value="Rename">
-<input type="submit" name="downloadButton" value="Download">
-<input type="submit" name="deleteButton" value="Delete">
+<input class="newName" type="text" name="newName" placeholder="New Name"> 
+<input type="submit" name="renameButton" value="&#xf044;"  class="submitButton"> 
+<input type="submit" name="downloadButton" value="&#xf0ed;" class="submitButton">
+<input type="submit" name="deleteButton" value="&#xf00d;" class="submitButton">
 </form>
 </div>
 {% endfor %}
+{% endif %}
 {% endblock %}
