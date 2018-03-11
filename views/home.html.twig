@@ -3,7 +3,13 @@
 {% block page_title %}final filer{% endblock %}
 
 {% block content %}
-<h1>List of files : </h1>
+    {% if session['u_id'] is not defined %}
+        <h1>Put your creative energy to work, with Filer</h1>
+        <p>Filer is a modern workspace designed to reduce busywork—so you can focus on the things that matter.</p>
+    {% endif %}
+    {% if session['u_id'] is defined %}
+        <h1>List of files : </h1>
+    {% endif %}
 {% for file in files %}
 
 <div class="fileView">
@@ -11,8 +17,8 @@
 <form action="?action=edit" class="edit" method="POST">
 <input type="hidden" name="secretName" value="{{file['name']}}">
 <input type="hidden" name="secretToken" value="{{file['token']}}">
-<input type="text" name="newName"> 
-<input type="submit" name="renameButton" value="Rename"> 
+<input type="text" name="newName">
+<input type="submit" name="renameButton" value="Rename">
 <input type="submit" name="downloadButton" value="Download">
 <input type="submit" name="deleteButton" value="Delete">
 </form>
