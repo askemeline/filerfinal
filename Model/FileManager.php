@@ -4,13 +4,17 @@ require_once 'Model/BaseManager.php';
 class FileManager extends BaseManager
 {
 
-    public function uploadFile($file)
+    public function uploadFile($file,$name)
     {
         $manager = new UserManager();
         $dir = $manager->verifyDir($_SESSION['u_id']);
         if ($dir === true) {
             $uploaddir = $_SESSION['path']; //verifie si le dossier existe
-            $tempName = $_FILES['userfile']['name'];
+            if(strlen($name) > 1){
+                $tempName = $name;   
+            } else {
+                $tempName = $_FILES['userfile']['name'];
+            }
             $tempName = str_replace('/', '', htmlentities($tempName));
             $tempName = str_replace('..', '', $tempName);
             $uploadfile = $uploaddir . $tempName;
