@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le :  Dim 11 mars 2018 à 12:39
+-- Généré le :  Dim 11 mars 2018 à 21:23
 -- Version du serveur :  5.6.38
 -- Version de PHP :  7.2.1
 
@@ -26,7 +26,7 @@ CREATE TABLE `files` (
   `extension` varchar(10) NOT NULL,
   `type` varchar(20) NOT NULL,
   `size` int(20) NOT NULL,
-  `token` varchar(15) NOT NULL,
+  `token` varchar(100) NOT NULL,
   `path` text NOT NULL,
   `id_user` varchar(255) NOT NULL,
   `date_ajout` date NOT NULL
@@ -40,7 +40,6 @@ CREATE TABLE `files` (
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `mainfolderid` int(10) NOT NULL,
   `creation` datetime NOT NULL,
   `firstname` varchar(255) NOT NULL,
   `lastname` varchar(255) NOT NULL,
@@ -72,10 +71,10 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `files`
 --
 ALTER TABLE `files`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
