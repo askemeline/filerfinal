@@ -7,7 +7,8 @@
         <h1>Put your creative energy to work, with Filer</h1>
         <p>Filer is a modern workspace designed to reduce busywork—so you can focus on the things that matter.</p>
     {% else %}
-        <h1>List of files : </h1>
+        <h1>Hello {{session['u_first']}}</h1>
+        <h2>List of files : </h2>
 {% for file in files %}
 <div class="fileView">
 <p class="fileName" title={{'ajout:' ~ file['date_ajout'] }}>{{ file['name'] }}</p>

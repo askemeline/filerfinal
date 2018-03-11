@@ -21,7 +21,15 @@
 
   </div>
   {% endblock %}
-   {% block content %} 
+  {% block errorblock %}
+      {% if errors is defined %}
+      <p>{{errors}}</p>
+  {% endif %}
+   {% endblock %}
+   {% block content %}
+    {% if errors is defined %}
+    <p>{{errors}}</p>
+{% endif %}
    {% endblock %}
 
   <div class="footer">
