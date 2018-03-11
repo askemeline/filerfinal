@@ -81,6 +81,10 @@ class MainController extends BaseController
                 if ($uploaded === true){
                     $this->redirectToRoute('home');
                 }
+                else{
+                    $data['errors'] == "Something Bad Happend, Please Try later !"; 
+                    return $this->render('upload.html.twig', $data);
+                }
             } else {
                 return $this->render('upload.html.twig', $data);
             }
@@ -97,13 +101,25 @@ class MainController extends BaseController
             $path = $_SESSION['path'] . $_POST['secretName'];
             if (isset($_POST['downloadButton'])) {
                 $manager = new FileManager();
-                $manager->downloadFile($path);
+               $downloaded = $manager->downloadFile($path);
+               if ($downloaded === false) {
+                $data['errors'] == "Something Bad Happend, Please Try later !";
+                return $this->render('edit.html.twig', $data);
+                }
             } else if (isset($_POST['deleteButton'])) {
                 $manager = new FileManager();
-                $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
+                $deleted = $manager->deleteFile($_POST['secretName'],$_POST['secretToken']);
+                if ($deleted === false) {
+                    $data['errors'] == "Something Bad Happend, Please Try later !";
+                    return $this->render('edit.html.twig', $data);
+                    }
             } else if (isset($_POST['renameButton'])) {
                 $manager = new FileManager();
-                $manager->renameFile($_POST['newName'],$_POST['secretName'],$_POST['secretToken']);
+                $renamed = $manager->renameFile($_POST['newName'],$_POST['secretName'],$_POST['secretToken']);
+                if ($renamed === false) {
+                    $data['errors'] == "Something Bad Happend, Please Try later !";
+                    return $this->render('edit.html.twig', $data);
+                    }
             } else {
                 $this->redirectToRoute('home');
             }

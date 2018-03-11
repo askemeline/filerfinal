@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_title %}final filer{% endblock %}
+
+{% block content %}
+    {% if errors is defined %}
+    {{errors}}
+          <a class="right login" href="?action=home">Retourner en lieu sur</a>
+    {% else %}
+          <a class="right login" href="?action=home">Retourner en lieu sur</a>
+{% endif %}
+{% endblock %}

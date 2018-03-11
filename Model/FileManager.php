@@ -4,14 +4,14 @@ require_once 'Model/BaseManager.php';
 class FileManager extends BaseManager
 {
 
-    public function uploadFile($file,$name)
+    public function uploadFile($file, $name)
     {
         $manager = new UserManager();
         $dir = $manager->verifyDir($_SESSION['u_id']);
         if ($dir === true) {
             $uploaddir = $_SESSION['path']; //verifie si le dossier existe
-            if(strlen($name) > 1){
-                $tempName = $name;   
+            if (strlen($name) > 1) {
+                $tempName = $name;
             } else {
                 $tempName = $_FILES['userfile']['name'];
             }
@@ -30,10 +30,14 @@ class FileManager extends BaseManager
                 $uploadfile = $uploaddir . $name;
             }
             if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-                self::insertFile($_FILES['userfile'], $name, $uploadfile);
-                return true;
+                $inserted = self::insertFile($_FILES['userfile'], $name, $uploadfile);
+                if ($inserted === true) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                echo "failed";
+                return false;
             }
         } else {
             return false;
@@ -55,7 +59,7 @@ class FileManager extends BaseManager
         $stmt->bindParam(':id_user', $_SESSION['u_id']);
         $stmt->bindParam(':date_ajout', $time);
         $stmt->execute();
-        
+
     }
     public function downloadFile($selectedFile)
     {
@@ -89,16 +93,22 @@ class FileManager extends BaseManager
         $selectStmt->bindParam(':id', $_SESSION['u_id']);
         $selectStmt->bindParam(':name', $selectedFile);
         $selectStmt->bindParam(':token', $selectedToken);
-        $selectStmt->execute();
+        $executed = $selectStmt->execute();
+        if($executed === false){
+            return false;
+        }
         $result = $selectStmt->fetch();
         unlink($result['path']);
         $deleteStmt = $pdo->prepare('DELETE FROM `files` WHERE  name = :name AND id_user = :id AND token = :token');
         $deleteStmt->bindParam(':id', $_SESSION['u_id']);
         $deleteStmt->bindParam(':name', $selectedFile);
         $deleteStmt->bindParam(':token', $selectedToken);
-        $deleteStmt->execute();
+        $executed = $deleteStmt->execute();
+        if($executed === false){
+            return false;
+        }
     }
-    public function renameFile($newName,$selectedFile,$selectedToken)
+    public function renameFile($newName, $selectedFile, $selectedToken)
     {
         if (htmlentities($newName) !== "" && strlen(htmlentities($newName)) <= 30) {
             $tempName = str_replace('/', '', htmlentities($newName));
@@ -118,6 +128,8 @@ class FileManager extends BaseManager
                 $deleteStmt->execute();
                 rename($oldPath, $newPath);
             }
+        } else {
+            return false;
         }
     }
 }
