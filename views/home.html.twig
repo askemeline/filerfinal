@@ -3,8 +3,18 @@
 {% block page_title %}final filer{% endblock %}
 
 {% block content %}
-<h1>
-  Welcome to the final filer<br>
-  <small>By Ivan & Emeline</small>
-</h1>
+<h1>List of files : </h1>
+{% for file in files %}
+
+<div class="fileView">
+<p title={{'ajout:' ~ file['date_ajout'] }}>{{ file['name'] }}</p>
+<form action="?action=edit" class="edit" method="POST">
+<input type="hidden" name="secretName" value="{{file['name']}}">
+<input type="hidden" name="secretToken" value="{{file['token']}}">
+<input type="submit" name="renameButton" value="Rename"> 
+<input type="submit" name="downloadButton" value="Download">
+<input type="submit" name="deleteButton" value="Delete">
+</form>
+</div>
+{% endfor %}
 {% endblock %}
